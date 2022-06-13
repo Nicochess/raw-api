@@ -8,9 +8,6 @@ interface Movie {
     ratings: number[];
 
     directedBy: string;
-
-    indicativeRating: IndicativeRating;
-
 }
 
 export default Movie
