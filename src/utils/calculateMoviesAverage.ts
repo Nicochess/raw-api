@@ -1,6 +1,4 @@
-import Movie from "../interfaces/Movie";
 import removeMovieWithoutRatings from "./removeMovieWithoutRatings";
-
 
 interface MoviesWithAverage extends Movie {
     average: number;
@@ -15,7 +13,7 @@ function calculateMoviesAverage(movies: Movie[]): MoviesWithAverage[] {
         const sumFn = (previous: number, current: number) => previous + current
 
         const average = movie.ratings.reduce(sumFn, initialValue) / length;
-    
+
         return {
             ...movie,
             average,

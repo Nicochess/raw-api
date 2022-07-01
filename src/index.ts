@@ -1,7 +1,11 @@
 import inquirer from "inquirer";
-import Movie from "./interfaces/Movie";
-import User from "./interfaces/User";
 import MovieService from "./services/MovieService";
+
+type question = {
+    type: string
+    name: string
+    message: string
+}
 
 const users: User[] = [
     {
@@ -12,7 +16,7 @@ const users: User[] = [
     }
 ]
 
-const questions = [
+const questions: question[] = [
     {
         type: "input",
         name: "option",
@@ -20,7 +24,7 @@ const questions = [
     }
 ]
 
-const chooseMovieQuestions = [
+const chooseMovieQuestions: question[] = [
     {
         type: "input",
         name: "option",
@@ -28,7 +32,7 @@ const chooseMovieQuestions = [
     }
 ]
 
-const rateQuestions = [
+const rateQuestions: question[] = [
     {
         type: "input",
         name: "option",
@@ -36,12 +40,12 @@ const rateQuestions = [
     }
 ]
 
-const possibleAnswers = {
-    DOWNLOAD: '1',
-    RATE_MOVIE: '2',
-    SHOW_WITH_AVERAGE: '3',
-    CHOOSE_USER: '4',
-    EXIT: '5'
+enum possibleAnswers {
+    DOWNLOAD = '1',
+    RATE_MOVIE = '2',
+    SHOW_WITH_AVERAGE = '3',
+    CHOOSE_USER = '4',
+    EXIT = '5'
 }
 
 let movies: Movie[];
@@ -52,7 +56,7 @@ async function run() {
 
     const movieService = new MovieService();
 
-    switch(answers.option) {
+    switch (answers.option) {
         case possibleAnswers.DOWNLOAD:
             try {
                 console.log("Downloading movies...")
@@ -78,7 +82,7 @@ async function run() {
             users.map(user => console.log(`${user.id} - ${user.name}`))
             const answers = await inquirer.prompt(whichUser)
 
-            if(answers.option) {
+            if (answers.option) {
                 signedUser = users.findIndex(user => user.id === answers.option)
                 console.log(signedUser)
             }
@@ -98,7 +102,7 @@ async function run() {
 
             console.log(movieId, rate);
 
-        break;
+            break;
         case possibleAnswers.EXIT:
             break;
     }

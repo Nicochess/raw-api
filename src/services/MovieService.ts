@@ -17,7 +17,7 @@ class MovieService extends BaseService {
         super()
     }
 
-    async listAll() {
+    async listAll(): Promise<Movie[]> {
         const result = await this.getInstance().get<RespostaApiFilmes>("/movies");
         const { data } = result.data;
 

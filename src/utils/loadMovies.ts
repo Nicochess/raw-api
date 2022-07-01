@@ -1,5 +1,3 @@
-import Movie from "../interfaces/Movie";
-
 interface MoviesFromApiDTO {
     id: number;
     title: string;
