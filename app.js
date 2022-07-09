@@ -1,5 +1,6 @@
 const http = require("http");
 const Store = require("./controllers");
+const { getReqData } = require("./utils");
 
 const contentType = {
   "Content-Type": "application/json",
@@ -22,6 +23,21 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(404, contentType);
       res.end(JSON.stringify({ message: error }));
     }
+  } else if (req.url.match(/\/products\/([0-9]+)/) && req.method === "PATCH") {
+    try {
+      const id = req.url.split("/")[2];
+      const soldProduct = await new Store().soldProduct(id);
+      res.writeHead(200, contentType);
+      res.end(JSON.stringify(soldProduct));
+    } catch (error) {
+      res.writeHead(404, contentType);
+      res.end(JSON.stringify({ message: error }));
+    }
+  } else if (req.url === "/products" && req.method === "POST") {
+    let productData = await getReqData(req);
+    const product = await new Store().createProduct(JSON.parse(productData));
+    res.writeHead(200, contentType);
+    res.end(JSON.stringify(product));
   } else {
     res.writeHead(404, contentType);
     res.end(JSON.stringify({ message: "Route not found." }));
