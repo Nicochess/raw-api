@@ -34,10 +34,20 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ message: error }));
     }
   } else if (req.url === "/products" && req.method === "POST") {
-    let productData = await getReqData(req);
+    const productData = await getReqData(req);
     const product = await new Store().createProduct(JSON.parse(productData));
     res.writeHead(200, contentType);
     res.end(JSON.stringify(product));
+  } else if (req.url.match(/\/products\/([0-9]+)/) && req.method === "DELETE") {
+    try {
+      const id = req.url.split("/")[2];
+      const product = await new Store().deleteProduct(id)
+      res.writeHead(200, contentType)
+      res.end(JSON.stringify(product))
+    } catch (error) {
+      res.writeHead(404, contentType);
+      res.end(JSON.stringify({ message: error }));
+    }
   } else {
     res.writeHead(404, contentType);
     res.end(JSON.stringify({ message: "Route not found." }));

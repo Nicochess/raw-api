@@ -34,12 +34,26 @@ class StoreController {
     return new Promise((resolve, _) => {
       let newProduct = {
         id: data[data.length - 1].id + 1,
-        ...product
+        ...product,
+      };
+
+      resolve(newProduct);
+
+      data.push(newProduct);
+    });
+  }
+
+  async deleteProduct(id) {
+    return new Promise((resolve, reject) => {
+      const product = data.find((product) => product.id === parseInt(id));
+
+      if (product) {
+        const index = data.indexOf(product);
+        data.splice(index, 1);
+        resolve(product);
+      } else {
+        reject(`There's no product with ID ${id}`);
       }
-
-      resolve(newProduct)
-
-      data.push(newProduct)
     });
   }
 }
